@@ -30,19 +30,19 @@ class Commande{
     public function getEtat(){
         return $this->etat;
     }
-    public function getNom_Client()
+    public function getNomClient()
     {
         return $this->nom_client;
     }
-    public function getPrenom_Client()
+    public function getPrenomClient()
     {
         return $this->prenom_client;
     }
-    public function getMail_Client()
+    public function getMailClient()
     {
         return $this->mail_client;
     }
-    public function getTel_Client()
+    public function getTelClient()
     {
         return $this->tel_client;
     }

@@ -10,11 +10,11 @@ class Panier{
         $this->id_commande=$id_commande;
         $this->quantite=$quantite;
     }
-    public function getId_Produit()
+    public function getIdProduit()
     {
         return $this->id_produit;
     }
-    public function getId_Commande()
+    public function getIdCommande()
     {
         return $this->id_commande;
     }

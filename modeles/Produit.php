@@ -38,7 +38,7 @@ class Produit{
     {
         return $this->description;
     }
-    public function getTarif_Unitaire()
+    public function getTarifUnitaire()
     {
         return $this->tarif_unitaire;
     }
