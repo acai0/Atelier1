@@ -1,4 +1,6 @@
 <?php
+namespace modeles;
+
 class Commande{
     private $id;
     private $montant;

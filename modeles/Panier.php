@@ -1,4 +1,5 @@
 <?php
+namespace modeles;
 class Panier{
     private $id_produit;
     private $id_commande;
