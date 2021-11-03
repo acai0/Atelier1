@@ -1,25 +1,28 @@
 <?php
 namespace modeles;
 class Panier{
-    private $id_produit;
-    private $id_commande;
-    private $quantite;
+    private $BDD;
     
-    public function __construct($id_produit, $id_commande, $quantite){
-        $this->id_produit=$id_produit;
-        $this->id_commande=$id_commande;
-        $this->quantite=$quantite;
+    public function __construct(){
+        $this->BDD= new Data;
     }
-    public function getId_Produit()
-    {
-        return $this->id_produit;
+    
+        public function getById(){
+    
+        $resultat=array();
+        try{
+            $connexion=$this->BDD->connexionPDO($id);
+            $req=$connexion->prepare("select * from panier where id:id");
+            $req->bindValue(":id", $id, PDO::PARAM_STR);
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e){
+            print "Erreur ! : " . $e->getMessage();
+            die();
+                }
+        return $resultat;
     }
-    public function getId_Commande()
-    {
-        return $this->id_commande;
+    
     }
-    public function getQuantite()
-    {
-        return $this->quantite;
-    }
-}

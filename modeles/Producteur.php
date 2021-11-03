@@ -1,37 +1,28 @@
 <?php
 namespace modeles;
 class Producteur{
-    private $id;
-    private $nom;
-    private $localisation;
-    private $mail;
-    private $mdp;
-
-    public function __construct($id, $nom, $localisation, $mail, $mdp){
-        $this->id=$id;
-        $this->nom=$nom;
-        $this->localisation=$localisation;
-        $this->mail=$mail;
-        $this->mdp=$mdp;
+    private $BDD;
+    
+    public function __construct(){
+        $this->BDD= new Data;
     }
-    public function getId()
-    {
-        return $this->id;
+    
+        public function getById(){
+    
+        $resultat=array();
+        try{
+            $connexion=$this->BDD->connexionPDO($id);
+            $req=$connexion->prepare("select * from producteur where id:id");
+            $req->bindValue(":id", $id, PDO::PARAM_STR);
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e){
+            print "Erreur ! : " . $e->getMessage();
+            die();
+                }
+        return $resultat;
     }
-    public function getNom()
-    {
-        return $this->nom;
+    
     }
-    public function getLocalisation()
-    {
-        return $this->localisation;
-    }
-    public function getMail()
-    {
-        return $this->mail;
-    }
-    public function getMdp()
-    {
-        return $this->mdp;
-    }
-}

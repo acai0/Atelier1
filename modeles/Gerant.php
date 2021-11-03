@@ -1,32 +1,28 @@
 <?php
 namespace modeles;
 class Gerant{
-    private $id;
-    private $nom;
-    private $mail;
-    private $mdp;
-
-    public function __construct($id, $nom, $mail, $mdp){
-        $this->id=$id;
-        $this->nom=$nom;
-        $this->mail=$mail;
-        $this->mdp=$mdp;
+    private $BDD;
+    
+    public function __construct(){
+        $this->BDD= new Data;
     }
     
-    public function getId()
-    {
-        return $this->id;
+        public function getById(){
+    
+        $resultat=array();
+        try{
+            $connexion=$this->BDD->connexionPDO($id);
+            $req=$connexion->prepare("select * from gerant where id:id");
+            $req->bindValue(":id", $id, PDO::PARAM_STR);
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e){
+            print "Erreur ! : " . $e->getMessage();
+            die();
+                }
+        return $resultat;
     }
-    public function getNom()
-    {
-        return $this->nom;
+    
     }
-    public function getMail()
-    {
-        return $this->mail;
-    }
-    public function getMdp()
-    {
-        return $this->mdp;
-    }
-}

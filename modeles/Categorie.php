@@ -2,25 +2,28 @@
 namespace modeles;
 
 class Categorie{
-    private $id;
-    private $nom;
-    private $description;
-
-    public function __construct($id, $nom, $description){
-        $this->id= $id;
-        $this->nom=$nom;
-        $this->description=$description;
+    private $BDD;
+    
+    public function __construct(){
+        $this->BDD= new Data;
     }
     
-    public function getId(){
-        return $this->id;
+        public function getById(){
+    
+        $resultat=array();
+        try{
+            $connexion=$this->BDD->connexionPDO($id);
+            $req=$connexion->prepare("select * from categorie where id:id");
+            $req->bindValue(":id", $id, PDO::PARAM_STR);
+            $req->execute();
+    
+            $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e){
+            print "Erreur ! : " . $e->getMessage();
+            die();
+                }
+        return $resultat;
     }
-
-    public function getNom(){
-        return $this->nom;
+    
     }
-
-    public function getDescription(){
-        return $this->description;
-    }
-}
