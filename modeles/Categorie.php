@@ -1,4 +1,5 @@
 <?php 
+namespace modeles;
 class Categorie{
     private $id;
     private $nom;

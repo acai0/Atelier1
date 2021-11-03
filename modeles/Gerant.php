@@ -1,4 +1,5 @@
 <?php
+namespace modeles;
 class Gerant{
     private $id;
     private $nom;

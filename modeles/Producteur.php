@@ -1,4 +1,5 @@
 <?php
+namespace modeles;
 class Producteur{
     private $id;
     private $nom;
