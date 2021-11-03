@@ -37,7 +37,7 @@ class Commande{
     {
         return $this->prenom_client;
     }
-    public function getMail()
+    public function getMail_Client()
     {
         return $this->mail_client;
     }
