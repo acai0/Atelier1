@@ -12,7 +12,7 @@ class Commande extends \Illuminate\Database\Eloquent\Model{
         $requete = Commande::select();
         $lignes = $requete->get();
         foreach ($lignes as $c){  
-            $html.= "<li>Identifiant = $c->Id, Nom = $c->Nom_client, Mail= $c->Mail_client, Montant = $c->Montant, Tel = $c->Tel_client</li>\n" ;
+            $html.= "<li>Identifiant = $c->Id, Nom = $c->Nom_client, Mail= $c->Mail_client, Montant = $c->Montant, Tel = $c->Tel_client, Etat = $c->Etat</li>\n" ;
         }
       echo $html;
     }
