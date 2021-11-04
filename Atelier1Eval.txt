@@ -1,0 +1,8 @@
+EVALUATION en PHP:
+- Utiliser votre framework
+- Pas thecho exotiques
+- Pas JS
+- Pas de Framework PHP
+
+-Git public 
+-Déploiement sur Webetu

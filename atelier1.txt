@@ -1,0 +1,36 @@
+Demo en groupe, Evaluation écrite( démontrer compétence, question générale)
+depot arche: tableau de bord, fonctionnalités réalisée, contributions des membres,
+lien git dépot du code, url de test, données utiles pour tester l'application.
+Mardi 9 évaluation: démo 1/2/groupe, évaluation indivudelle écrite
+
+SUJET:
+Objectif: LeHangar.local, magasin pour passer commande auprès des producteur locaux, commandes en ligne, 
+produits de différentes catégories, viandes, fromage, légumes, fruit, pour chaque produit
+on connait le producteur, passe leur commande en ligne et vont chercher leur commande a un lieu précis
+gère pas les paiement enligne, paiement au retrait
+
+Principe généraux: 1 application,parcourir le catalogue, ajouter panier, valider commande
+1 application backoffice; consulter la liste des produits commandés par producteur (préparer le nombre de produit), 
+consulter les commandes par clients (qui a commandé quoi),
+ enregistrer les livraisons et les paiements (cette livraison a été livré, il a payé)
+les acteurs: visiteurs clients du site (navigue, commande), producteur (liste et quantité des produits commandés, 
+gestion de leur produits), gérant de la coopérative (liste de commande pour préparation des livraisons,
+ tdb (ca global, ca par producteur)
+PAS DE DATE (pas de date limite commandé) , 
+PAS DE D'AUTH POUR LES CLIENTS (passer les coordonnées, pas de controle d'accès), 
+plusieurs catégorie de produits, appartient à une seule catégorie. relation 1-n
+TARIF DES PRODUITS A L'UNITE (carotte au kg, ou 5 kg de carotte = 2 produits différents) 3 unités = 3paquets
+ON NE GERE PAS LES STOCKS ET PRODUITS MANQUANT (illimité, c'est livré)
+PAS DE PAIEMENT EN LIGNE
+
+Scénario: Je suis gérant de la coopérative...... 
+Fonctionnalité de base: pas d'auth, dispo sur tout dispositif: smartphone, tablette....
+parcours et recherches dans le catalogue
+accès au contenu du panier, valider le panier et le transformer en 1 commandes (récap, montant total), 
+saisir coordonnées du client, validation.
+BO: auth, dispo sur tablette et laptop/desktop
+Producteur: liste de produits commandés, quantité, montant total
+Gérant: liste de chaque commande, détail de chaque commande pour vérification de la commande, livré
+Fonctionnalité additionnelle: créneau horaire, ajout de produit/suppression/modification, disponibilité des produits,
+
+
