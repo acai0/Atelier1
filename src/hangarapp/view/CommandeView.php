@@ -12,7 +12,7 @@ use hangarapp\model\Produit as Produit;
 use hangarapp\view\HangarView as HangarView;
 use mf\view\AbstractView as AbstractView ;
 
-class HangarView extends AbstractView 
+class CommandeView extends AbstractView 
 {
   
     /* Constructeur 

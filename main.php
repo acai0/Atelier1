@@ -22,8 +22,8 @@ use mf\router\Router as Router;
 
 // Models
 use hangarapp\model\Commande as Commande;
-use hangarapp\model\Like as Like;
-use hangarapp\model\Tweet as Tweet;
+use hangarapp\model\Categorie as Categorie;
+use hangarapp\model\Produit as Produit;
 use hangarapp\model\User as User;
 
 // Controllers
@@ -38,45 +38,22 @@ $db = new Illuminate\Database\Capsule\Manager();
 $db->addConnection( $paramsServer ); /* configuration avec nos paramètres */
 $db->setAsGlobal();            /* rendre la connexion visible dans tout le projet */
 $db->bootEloquent();           /* établir la connexion */
-/*
+
 $router = new Router();
 $router->addRoute('home',
                   '/home/',
                   '\hangarapp\control\HangarController',
                   'viewHome');
-$router->addRoute('tweet',
-                  '/tweet/',
-                  '\hangarapp\control\HangarController',
-                  'viewTweet');
-$router->addRoute('usertweets',
-                  '/usertweets/',
-                  '\hangarapp\control\HangarController',
-                  'viewUserTweets');
-$router->addRoute('login',
-                  '/login/',
-                  '\hangarapp\control\HangarController',
-                  'viewLogin');
-$router->addRoute('register',
-                  '/register/',
-                  '\hangarapp\control\HangarController',
-                  'viewRegister');
-$router->addRoute('form',
-                  '/form/',
-                  '\hangarapp\control\HangarController',
-                  'viewPostTweet');
-$router->addRoute('send',
-                  '/send/',
-                  '\hangarapp\control\HangarController',
-                  'sendPostTweet');
+
                 
 $router->setDefaultRoute('/home/');
+
 $router->run();
-*/
 echo "/*************************** Liste des commandes ********************* /<br>";
 $c=new hangarapp\model\Commande;
 $requete = Commande::select(); 
 
-$lignesC = $requete->get();   /* exécution de la requête et plusieurs lignes résultat */
+$lignesC = $requete->get();  
 
-foreach ($lignesC as $c)      /* $v est une instance de la classe Ville */
-    echo "Identifiant = $c->Id, Nom = $c->Nom_client <br>" ;
+foreach ($lignesC as $c)     
+    echo "Identifiant = $c->Id, Nom = $c->Nom_client, Mail=$c->Mail_client, Telephone= $c->Tel_client, Montant=$c->Montant, Etat=$c->Etat<br>" ;
