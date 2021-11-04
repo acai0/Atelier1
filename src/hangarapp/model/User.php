@@ -1,5 +1,6 @@
 <?php
-namespace hangarapp\model;
+
+namespace tweeterapp\model;
 
 class User extends \Illuminate\Database\Eloquent\Model {
 

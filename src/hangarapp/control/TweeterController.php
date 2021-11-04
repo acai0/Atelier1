@@ -4,7 +4,7 @@ namespace tweeterapp\control;
 
 use mf\utils\HttpRequest as HttpRequest;
 use mf\router\Router as Router;
-use tweeterapp\model\Commande as Commande;
+use tweeterapp\model\Tweet as Tweet;
 use tweeterapp\model\User as User;
 use tweeterapp\view\TweeterView as TweeterView;
 
