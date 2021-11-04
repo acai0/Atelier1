@@ -1,7 +1,6 @@
 <?php
-namespace modeles;
-
-class Commande{
+namespace model;
+class Gerant{
     private $BDD;
     
     public function __construct(){
@@ -13,7 +12,7 @@ class Commande{
         $resultat=array();
         try{
             $connexion=$this->BDD->connexionPDO($id);
-            $req=$connexion->prepare("select * from commande where id:id");
+            $req=$connexion->prepare("select * from gerant where id:id");
             $req->bindValue(":id", $id, PDO::PARAM_STR);
             $req->execute();
     

@@ -1,13 +1,17 @@
 <?php
-require_once 'Data';
-//use model\Commande as commande;
-include "model/Commande.php";
-//Récupérer toute les commandes
-echo "/****************************Recupere toute les commandes ********************************/<br>";
-$c = new Commande();
-$requete = $c::select(); 
+require_once 'ClassLoaders/AbstractClassLoader.php';
+require_once 'ClassLoaders/ClassLoader.php';
+require_once 'model/Data.php';
+use model\Commande as commande;
+use model\Panier as panier;
 
-$lignesC = $requete->get();   
+$loader = new ClassLoaders\ClassLoader('.');
+$loader->register();
 
-foreach ($lignesC as $c)     
-    echo "Identifiant = $c->id, Nom = $c->nom_client <br>" ;
+$panier = new panier();
+$panier->viderPanier(1);
+
+$c = new commande();
+$c->getNomClient('CAI');
+print_r ($c);
+

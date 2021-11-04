@@ -1,5 +1,5 @@
 <?php
-namespace modeles;
+namespace model;
 class Produit{
     private $BDD;
     

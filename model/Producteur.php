@@ -1,6 +1,6 @@
 <?php
-namespace modeles;
-class Panier{
+namespace model;
+class Producteur{
     private $BDD;
     
     public function __construct(){
@@ -12,7 +12,7 @@ class Panier{
         $resultat=array();
         try{
             $connexion=$this->BDD->connexionPDO($id);
-            $req=$connexion->prepare("select * from panier where id:id");
+            $req=$connexion->prepare("select * from producteur where id:id");
             $req->bindValue(":id", $id, PDO::PARAM_STR);
             $req->execute();
     

@@ -1,5 +1,7 @@
 <?php
-
+namespace model;
+use model\Data;
+use PDO;
 class Data
 {
     /**
@@ -10,7 +12,7 @@ class Data
     function connexionPDO()
     {
         // Récupération des informations du fichier de configuration
-        $data = file_get_contents('../config.json', FILE_USE_INCLUDE_PATH);
+        $data = file_get_contents('./conf/config.json', FILE_USE_INCLUDE_PATH);
         $config = json_decode($data); 
         $login = $config[0]->login;
         $mdp = $config[0]->mdp;
