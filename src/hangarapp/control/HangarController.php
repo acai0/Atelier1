@@ -47,11 +47,10 @@ class HangarController extends \mf\control\AbstractController {
     public function viewUnProducteur(){
         $route = new Router();
         $http_req = new HttpRequest();
-        /*
-        $idProducteur = $http_req->get['id'];
+        //$idProducteur = $http_req->get['Id'];
+        $idProducteur = $id ?? $this->request->get['Id'];
         $producteur = Producteur::find($idProducteur);
-        */
-        $producteur = Producteur::all();
+        //$producteur = Producteur::all();
         $vueProducteur = new HangarView($producteur);
         echo $vueProducteur->render('renderUnProducteur');
         

@@ -135,18 +135,16 @@ class HangarView extends AbstractView
 
      public function renderUnProducteur(){
         $route = new Router();
-        $producteurs = $this->data;
- 
+        //var_dump($this->data);
+        $producteur = $this->data;
         $html =  "<div style='font-weight: bolder'>Producteur</div>";
-          foreach ($producteurs as $producteur)
-          {
              $html .= "
              <div class='producteur-nom'> $producteur->Nom </a></div>
              <div class='producteur-localisation'>Localisation:  $producteur->Localisation \n</div>
              <div class='producteur-desc'>$producteur->Mail \n</div>
              </div>
      ";
-          }
+
  
           return $html;
  
@@ -158,7 +156,7 @@ public function renderProducteur(){
     $html =  "<div style='font-weight: bolder'>Producteurs</div>";
       foreach ($producteurs as $producteur)
       {
-        $link_producteur =$route->urlFor('unProducteur',[['id',"$producteur->Id"]]);
+        $link_producteur =$route->urlFor('unProducteur',[['Id',"$producteur->Id"]]);
          $html .="
          <div class='producteur-nom''><div><a href=" . $link_producteur ."> $producteur->Nom  </a></div>
    </div>";
