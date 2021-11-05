@@ -133,22 +133,17 @@ class HangarView extends AbstractView
  
      }
 
-     public function renderProducteur(){
+     public function renderUnProducteur(){
         $route = new Router();
-        $produit = $this->data;
-        $producteurs = $produit->producteur()->get();
-       //$producteurs= $this->data;
+        $producteurs = $this->data;
  
-        $html =  "<div style='font-weight: bolder'>Producteur/div>";
+        $html =  "<div style='font-weight: bolder'>Producteur</div>";
           foreach ($producteurs as $producteur)
           {
-            // $link_producteur =$route->urlFor('producteur',[['id',"$producteur->Id_Prooducteur"]]);
              $html .= "
-             <div class='producteur-nom'><div><a href=" . $link_producteur ."> $producteur->Nom </a></div>
-             <div class='producteur-localisation'> $producteur->Localisation \n</div>
-             <div class='produit-nom'>$produit->Nom \n</div>
-             <div class='produit-tarif'>$produit->Tarif \n</div>
-             <div class='producteur-desc'>$producteur->Description \n</div>
+             <div class='producteur-nom'> $producteur->Nom </a></div>
+             <div class='producteur-localisation'>Localisation:  $producteur->Localisation \n</div>
+             <div class='producteur-desc'>$producteur->Mail \n</div>
              </div>
      ";
           }
@@ -157,6 +152,22 @@ class HangarView extends AbstractView
  
      }
 
+public function renderProducteur(){
+    $route = new Router();
+    $producteurs = $this->data;
+    $html =  "<div style='font-weight: bolder'>Producteurs</div>";
+      foreach ($producteurs as $producteur)
+      {
+        $link_producteur =$route->urlFor('unProducteur',[['id',"$producteur->Id"]]);
+         $html .="
+         <div class='producteur-nom''><div><a href=" . $link_producteur ."> $producteur->Nom  </a></div>
+   </div>";
+
+      }
+
+      return $html;
+
+ }
 
     /* Méthode renderBody
      *
@@ -193,6 +204,12 @@ class HangarView extends AbstractView
                         $center = $this->renderProducteur();
                         $navBar = $this->renderNav();
                         break;
+
+                        case 'renderUnProducteur':
+                            $center = $this->renderUnProducteur();
+                            $navBar = $this->renderNav();
+                            break;
+
 
             default:
                 $center = "Pas de fonction view correspondante";

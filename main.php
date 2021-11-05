@@ -57,16 +57,21 @@ $router->addRoute('home',
                   '\hangarapp\control\HangarController',
                   'viewHome');
 
-$router->addRoute('commande',
+                  $router->addRoute('commande',
                   '/commande/',
                   '\hangarapp\control\HangarController',
                   'viewCommande');
 
 
-$router->addRoute('producteur',
+                  $router->addRoute('producteur',
                   '/producteur/',
                   '\hangarapp\control\HangarController',
                   'viewProducteur');
+
+                  $router->addRoute('unProducteur',
+                  '/unProducteur/',
+                  '\hangarapp\control\HangarController',
+                  'viewUnProducteur');
 /*
 $router->addRoute('login',
                   '/login/',
