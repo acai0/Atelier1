@@ -23,9 +23,26 @@ class HangarController extends \mf\control\AbstractController {
 
         $produit = Produit::all();
         $vueProduit = new HangarView($produit);
-        // echo $vueTweets->renderHome();
         echo $vueProduit->render('renderHome');
 
+    }
+      
+    public function viewCommande(){
+
+        $route = new Router();
+        $http_req = new HttpRequest();
+        $commande = Commande::all();
+        $vueCommande = new HangarView($commande);
+        echo $vueCommande->render('renderCommande');
+
+    }
+
+    public function viewProducteur(){
+        $route = new Router();
+        $http_req = new HttpRequest();
+        $producteur = Producteur::all();
+        $vueProducteur = new HangarView($producteur);
+        echo $vueProducteur->render('renderProducteur');
     }
 
 }

@@ -4,10 +4,9 @@ namespace hangarapp\view;
 
 use mf\router\Router as Router;
 use hangarapp\model\Categorie as Categorie;
-use hangarapp\model\Commande as Commande;
 use hangarapp\model\Gerant as Gerant;
 use hangarapp\model\Panier as Panier;
-use hangarapp\model\Producteur as Producteur;
+use hangarapp\model\commande as commande;
 use hangarapp\model\Produit as Produit;
 use hangarapp\view\HangarView as HangarView;
 use mf\view\AbstractView as AbstractView ;
@@ -69,9 +68,9 @@ class HangarView extends AbstractView
     private function renderHome()
     {
 
-       $displayTweets = "coucou";
+       $html = "coucou";
 
-         return $displayTweets;
+         return $html;
 
 
     }
@@ -111,10 +110,52 @@ class HangarView extends AbstractView
        return $htmlTweet;
         
     }
+    public function renderCommande(){
+        $route = new Router();
+        $commandes = $this->data;
+        $html =  "<div style='font-weight: bolder'>Commandes</div>";
+          foreach ($commandes as $commande)
+          {
+             //$link_commande =$route->urlFor('commande',[['id',"$commande->Id"]]);
+             $html .=/*"
+             <div class='commande-id'><div><a href=" . $link_commande ."> $commande->Id </a></div>"*/
+             "
+             <div class='commande-nomclient'>Nom du client :  $commande->Nom_client \n</div>
+             <div class='commande-mailclient'>Mail du client : $commande->Mail_client \n</div>
+             <div class='commande-telclient'>Telephone : $commande->Tel_client \n</div>
+             <div class='commande-montant'>Montant :$commande->Montant \n</div>
+             <div class='commande-etat'>Etat : $commande->Etat \n</div>
+             </div>
+     ";
+          }
+ 
+          return $html;
+ 
+     }
 
-
-
-
+     public function renderProducteur(){
+        $route = new Router();
+        $produit = $this->data;
+        $producteurs = $produit->producteur()->get();
+       //$producteurs= $this->data;
+ 
+        $html =  "<div style='font-weight: bolder'>Producteur/div>";
+          foreach ($producteurs as $producteur)
+          {
+            // $link_producteur =$route->urlFor('producteur',[['id',"$producteur->Id_Prooducteur"]]);
+             $html .= "
+             <div class='producteur-nom'><div><a href=" . $link_producteur ."> $producteur->Nom </a></div>
+             <div class='producteur-localisation'> $producteur->Localisation \n</div>
+             <div class='produit-nom'>$produit->Nom \n</div>
+             <div class='produit-tarif'>$produit->Tarif \n</div>
+             <div class='producteur-desc'>$producteur->Description \n</div>
+             </div>
+     ";
+          }
+ 
+          return $html;
+ 
+     }
 
 
     /* Méthode renderBody
@@ -142,6 +183,16 @@ class HangarView extends AbstractView
                 $center = $this->renderHome();
                 $navBar = $this->renderNav();
                 break;
+
+                case 'renderCommande':
+                    $center = $this->renderCommande();
+                    $navBar = $this->renderNav();
+                    break;
+
+                    case 'renderProducteur':
+                        $center = $this->renderProducteur();
+                        $navBar = $this->renderNav();
+                        break;
 
             default:
                 $center = "Pas de fonction view correspondante";

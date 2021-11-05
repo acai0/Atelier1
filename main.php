@@ -21,10 +21,13 @@ $loader->register();
 use mf\router\Router as Router;
 
 // Models
-use hangarapp\model\Commande as Commande;
 use hangarapp\model\Categorie as Categorie;
+use hangarapp\model\Commande as Commande;
+use hangarapp\model\Gerant as Gerant;
+use hangarapp\model\Panier as Panier;
+use hangarapp\model\Producteur as Producteur;
 use hangarapp\model\Produit as Produit;
-use hangarapp\model\User as User;
+
 
 // Controllers
 use hangarapp\control\HangarController as HangarController;
@@ -38,17 +41,7 @@ $db = new Illuminate\Database\Capsule\Manager();
 $db->addConnection( $paramsServer ); /* configuration avec nos paramètres */
 $db->setAsGlobal();            /* rendre la connexion visible dans tout le projet */
 $db->bootEloquent();           /* établir la connexion */
-
-$router = new Router();
-$router->addRoute('home',
-                  '/home/',
-                  '\hangarapp\control\HangarController',
-                  'viewHome');
-
-                
-$router->setDefaultRoute('/home/');
-
-$router->run();
+/*
 echo "/*************************** Liste des commandes ********************* /<br>";
 $c=new hangarapp\model\Commande;
 $requete = Commande::select(); 
@@ -57,3 +50,45 @@ $lignesC = $requete->get();
 
 foreach ($lignesC as $c)     
     echo "Identifiant = $c->Id, Nom = $c->Nom_client, Mail=$c->Mail_client, Telephone= $c->Tel_client, Montant=$c->Montant, Etat=$c->Etat<br>" ;
+*/
+$router = new Router();
+$router->addRoute('home',
+                  '/home/',
+                  '\hangarapp\control\HangarController',
+                  'viewHome');
+
+$router->addRoute('commande',
+                  '/commande/',
+                  '\hangarapp\control\HangarController',
+                  'viewCommande');
+
+
+$router->addRoute('producteur',
+                  '/producteur/',
+                  '\hangarapp\control\HangarController',
+                  'viewProducteur');
+/*
+$router->addRoute('login',
+                  '/login/',
+                  '\hangarapp\control\HangarController',
+                  'viewLogin');
+
+$router->addRoute('register',
+                  '/register/',
+                  '\hangarapp\control\HangarController',
+                  'viewRegister');
+
+$router->addRoute('form',
+                  '/f🅾rm/',
+                  '\hangarapp\control\HangarController',
+                  'viewPostTweet');
+
+$router->addRoute('send',
+                  '/send/',
+                  '\hangarapp\control\HangarController',
+                  'sendPostTweet');
+                */
+$router->setDefaultRoute('/home/');
+
+$router->run();
+

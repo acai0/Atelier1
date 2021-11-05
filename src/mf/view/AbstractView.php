@@ -5,7 +5,7 @@ namespace mf\view;
 abstract class AbstractView {
 
     static protected $style_sheets = []; /* un tableau de fichiers style */
-    static protected $app_title    = "MF app Title"; /* un titre de document */
+    static protected $app_title    = "Le Hangar"; /* un titre de document */
     
     protected $data        = null; /* les données nécessaires */
     
@@ -103,7 +103,7 @@ abstract class AbstractView {
 
         /* les feuilles de style */
         $app_root = (new \mf\utils\HttpRequest())->root;
-        $this->addStyleSheet('html/style.css');
+        $this->addStyleSheet('html/css/style.css');
         $styles = '';
         foreach ( self::$style_sheets as $file )
             $styles .= '<link rel="stylesheet" href="'.$app_root.'/'.$file.'"> ';
@@ -124,13 +124,12 @@ abstract class AbstractView {
     <head>
         <meta charset="utf-8">
         <title>${title}</title>
+        <link rel="shortcut icon" type="image/x-icon" href="/lehangar/html/favicon/favicon" />
 	    ${styles}
     </head>
-
     <body>
         
        ${body}
-
     </body>
 </html>
 EOT;

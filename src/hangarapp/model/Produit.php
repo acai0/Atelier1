@@ -2,8 +2,8 @@
 namespace hangarapp\model;
 
 class Produit extends \Illuminate\Database\Eloquent\Model{
-    protected $table      = 'produit';  /* le nom de la table */
-    protected $primaryKey = 'id';     /* le nom de la clé primaire */
+    protected $table      = 'Produit';  /* le nom de la table */
+    protected $primaryKey = 'Id';     /* le nom de la clé primaire */
     public    $timestamps = false;     /* si vrai la table doit contenir
                                        les deux colonnes updated_at,
                                        created_at */
@@ -14,7 +14,9 @@ class Produit extends \Illuminate\Database\Eloquent\Model{
                                         /* 'Categorie'    : le nom de la classe du model lié */
                                         /* 'Id_Categorie' : la clé étrangère dans la table courante */
                                  }
-                                 
-    
+                                
+    public function producteur(){
+        return $this->belongsTo('\hangarapp\model\Producteur', 'Id_Producteur');
+    }
 
 }
