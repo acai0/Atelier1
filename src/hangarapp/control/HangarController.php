@@ -72,22 +72,6 @@ class TweeterController extends \mf\control\AbstractController {
      */
     
     public function viewTweet(){
-
-        /* Algorithme : 
-         *  
-         *  1 L'identifiant du Tweet en question est passé en paramètre (id) 
-         *      d'une requête GET 
-         *  2 Récupérer le Tweet depuis le modèle Tweet
-         *  3 Afficher toutes les informations du tweet 
-         *      (text, auteur, date, score)
-         *  4 Retourner un block HTML qui met en forme le Tweet
-         * 
-         *  Erreurs possibles : (*** à implanter ultérieurement ***)
-         *    - pas de paramètre dans la requête
-         *    - le paramètre passé ne correspond pas a un identifiant existant
-         *    - le paramètre passé n'est pas un entier 
-         * 
-         */
          $route = new Router();
 
          $http_req = new HttpRequest();
@@ -111,24 +95,6 @@ class TweeterController extends \mf\control\AbstractController {
     
     public function viewUserTweets(){
 
-        /*
-         *
-         *  1 L'identifiant de l'utilisateur en question est passé en 
-         *      paramètre (id) d'une requête GET 
-         *  2 Récupérer l'utilisateur et ses Tweets depuis le modèle 
-         *      Tweet et User
-         *  3 Afficher les informations de l'utilisateur 
-         *      (non, login, nombre de suiveurs) 
-         *  4 Afficher ses Tweets (text, auteur, date)
-         *  5 Retourner un block HTML qui met en forme la liste
-         *
-         *  Erreurs possibles : (*** à implanter ultérieurement ***)
-         *    - pas de paramètre dans la requête
-         *    - le paramètre passé ne correspond pas a un identifiant existant
-         *    - le paramètre passé n'est pas un entier 
-         * 
-         */
-
         $route = new Router();
 
         $http_req = new HttpRequest();
@@ -147,25 +113,6 @@ class TweeterController extends \mf\control\AbstractController {
     }
 
     public function viewPostTweet(){
-
-        /*
-         *
-         *  1 L'identifiant de l'utilisateur en question est passé en 
-         *      paramètre (id) d'une requête GET 
-         *  2 Récupérer l'utilisateur et ses Tweets depuis le modèle 
-         *      Tweet et User
-         *  3 Afficher les informations de l'utilisateur 
-         *      (non, login, nombre de suiveurs) 
-         *  4 Afficher ses Tweets (text, auteur, date)
-         *  5 Retourner un block HTML qui met en forme la liste
-         *
-         *  Erreurs possibles : (*** à implanter ultérieurement ***)
-         *    - pas de paramètre dans la requête
-         *    - le paramètre passé ne correspond pas a un identifiant existant
-         *    - le paramètre passé n'est pas un entier 
-         * 
-         */
-
         $route = new Router();
         $http_req = new HttpRequest();
         $tweets = Tweet::all();
