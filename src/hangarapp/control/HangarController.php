@@ -1,14 +1,18 @@
 <?php
 
-namespace tweeterapp\control;
+namespace hangarapp\control;
 
 use mf\utils\HttpRequest as HttpRequest;
 use mf\router\Router as Router;
-use tweeterapp\model\Commande as Commande;
-use tweeterapp\model\User as User;
-use tweeterapp\view\TweeterView as TweeterView;
+use hangarapp\model\Categorie as Categorie;
+use hangarapp\model\Commande as Commande;
+use hangarapp\model\Gerant as Gerant;
+use hangarapp\model\Panier as Panier;
+use hangarapp\model\Producteur as Producteur;
+use hangarapp\model\Produit as Produit;
+use hangarapp\view\HangarView as HangarView;
 
-/* Classe TweeterController :
+/* Classe HangarController :
  *  
  * Réalise les algorithmes des fonctionnalités suivantes: 
  *
@@ -22,7 +26,7 @@ use tweeterapp\view\TweeterView as TweeterView;
  *   
  */
 
-class TweeterController extends \mf\control\AbstractController {
+class HangarController extends \mf\control\AbstractController {
 
 
     /* Constructeur :
@@ -33,7 +37,8 @@ class TweeterController extends \mf\control\AbstractController {
      * 
      */
     
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -46,99 +51,47 @@ class TweeterController extends \mf\control\AbstractController {
     
     public function viewHome(){
 
-        /* Algorithme :
-         *  
-         *  1 Récupérer tout les tweet en utilisant le modèle Tweet
-         *  2 Parcourir le résultat 
-         *      afficher le text du tweet, l'auteur et la date de création
-         *  3 Retourner un block HTML qui met en forme la liste
-         * 
-         */
-
-        // //  $route = new Router();
-
-        $tweets = Tweet::all();
-        $vueTweets = new TweeterView($tweets);
-        // echo $vueTweets->renderHome();
-        echo $vueTweets->render('renderHome');
+        $info["produit"] = Produit::select('*')->orderBy('Id_Categorie')->orderBy('nom')->get();
+        $info["categorie"] = Categorie::select('*')->orderBy('nom')->get();
+        $info["producteur"]= Producteur::select('*')->orderBy('nom')->get();
+        $vueProduit = new HangarView($info);
+        echo $vueProduit->render('renderHome');
 
     }
-
-
-    /* Méthode viewTweet : 
-     *  
-     * Réalise la fonctionnalité afficher un Tweet
-     *
-     */
-    
-    public function viewTweet(){
-         $route = new Router();
-
-         $http_req = new HttpRequest();
-         $idTweet = $http_req->get['id'];
-
-         $tweet = Tweet::find($idTweet);
-
-         $vueTweet = new TweeterView($tweet); // changer le nom de cette var. WHY ??
-        //  echo $vueTweet->renderViewTweet();
-         echo $vueTweet->render('viewTweet');
-
-
-    }
-
-
-    /* Méthode viewUserTweets :
-     *
-     * Réalise la fonctionnalité afficher les tweet d'un utilisateur
-     *
-     */
-    
-    public function viewUserTweets(){
-
-        $route = new Router();
-
-        $http_req = new HttpRequest();
-        $idUser = $http_req->get['id'];
-
-        $user = User::find($idUser);
-        $tweets = $user->tweets()->get();
-
-        $vueUserTweets = new TweeterView($user);
-        // echo $vueUserTweets->renderUserTweets();
-        echo $vueUserTweets->render('userTweets');
-
-        
-
-
-    }
-
-    public function viewPostTweet(){
+    public function viewUnProducteur(){
         $route = new Router();
         $http_req = new HttpRequest();
-        $tweets = Tweet::all();
-        $vueUserTweets = new TweeterView($tweets);
-        // echo $vueUserTweets->renderUserTweets();
-        echo $vueUserTweets->render('renderPostTweet');
-
+        $idProducteur = $id ?? $this->request->get['Id'];
+        $producteur = Producteur::find($idProducteur);
+        $vueProducteur = new HangarView($producteur);
+        echo $vueProducteur->render('renderUnProducteur');
     }
 
-    public function sendPostTweet()
-    {
-        // $http_req = new HttpRequest(); //Injectin de dépendance ?? Eviter l'instanciation de $route à chaque fois
-        $text_form = $this->request->post['text'];
-        
-        // Requete préparée, filtrer les données... que fait eloquent que ne fait-il pas ?
-        $new_tweet = new Tweet();
-        // requête préparée ok mais pas "sécurisé"
-        $new_tweet->text = filter_var($text_form,FILTER_SANITIZE_SPECIAL_CHARS); // résiste au drop_database ?
-        $new_tweet->author = '9';
-        $new_tweet->save();
+    public function viewTest(){
+        $info = array();
+        $a="";
+        $b="";
+        $tic = false;
+        foreach ($_POST as $data)
+        {
+            $b = $a;
+            $a = $data;
+            if (($a != 0) && ($tic == true))
+            {
+                $info[] = array("id"=>$b,"qte"=>$a);
+            }
+            if ($tic == false)
+            {
+                $tic = true;
+            }
+            else
+            {
+                $tic = false;
+            }
+        }
+        $vue = new HangarView($info);
+        echo $vue->render('renderTest');
 
-        $_GET["id"] = $new_tweet->id;
-
-        $this->viewTweet($new_tweet->id); // changer avec execute route ?
-        
-        
     }
 
 }

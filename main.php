@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 // Affichage des erreurs
@@ -12,7 +13,6 @@ require_once 'src/mf/utils/ClassLoader.php';
 
 /* pour le chargement automatique des classes d'Eloquent (dans le répertoire vendor) */
 require_once 'vendor/autoload.php';
-require_once 'conf/conf.ini';
 
 $loader = new \mf\utils\ClassLoader('src');
 $loader->register();
@@ -21,10 +21,12 @@ $loader->register();
 use mf\router\Router as Router;
 
 // Models
+use hangarapp\model\Categorie as Categorie;
 use hangarapp\model\Commande as Commande;
-use hangarapp\model\Like as Like;
-use hangarapp\model\Tweet as Tweet;
-use hangarapp\model\User as User;
+use hangarapp\model\Gerant as Gerant;
+use hangarapp\model\Panier as Panier;
+use hangarapp\model\Producteur as Producteur;
+use hangarapp\model\Produit as Produit;
 
 // Controllers
 use hangarapp\control\HangarController as HangarController;
@@ -38,52 +40,26 @@ $db = new Illuminate\Database\Capsule\Manager();
 $db->addConnection( $paramsServer ); /* configuration avec nos paramètres */
 $db->setAsGlobal();            /* rendre la connexion visible dans tout le projet */
 $db->bootEloquent();           /* établir la connexion */
-/*
+
 $router = new Router();
+
 $router->addRoute('home',
                   '/home/',
                   '\hangarapp\control\HangarController',
                   'viewHome');
 
-$router->addRoute('tweet',
-                  '/tweet/',
+                  $router->addRoute('test',
+                  '/test/',
                   '\hangarapp\control\HangarController',
-                  'viewTweet');
+                  'viewTest');
 
-$router->addRoute('usertweets',
-                  '/usertweets/',
+                  $router->addRoute('unProducteur',
+                  '/unProducteur/',
                   '\hangarapp\control\HangarController',
-                  'viewUserTweets');
+                  'viewunProducteur');
 
-$router->addRoute('login',
-                  '/login/',
-                  '\hangarapp\control\HangarController',
-                  'viewLogin');
 
-$router->addRoute('register',
-                  '/register/',
-                  '\hangarapp\control\HangarController',
-                  'viewRegister');
-
-$router->addRoute('form',
-                  '/form/',
-                  '\hangarapp\control\HangarController',
-                  'viewPostTweet');
-
-$router->addRoute('send',
-                  '/send/',
-                  '\hangarapp\control\HangarController',
-                  'sendPostTweet');
                 
 $router->setDefaultRoute('/home/');
 
 $router->run();
-*/
-echo "/*************************** Liste des commandes ********************* /<br>";
-$c=new hangarapp\model\Commande;
-$requete = Commande::select(); 
-
-$lignesC = $requete->get();   /* exécution de la requête et plusieurs lignes résultat */
-
-foreach ($lignesC as $c)      /* $v est une instance de la classe Ville */
-    echo "Identifiant = $c->Id, Nom = $c->Nom_client <br>" ;

@@ -1,13 +1,18 @@
 <?php
 
-namespace tweeterapp\view;
+namespace hangarapp\view;
 
 use mf\router\Router as Router;
-use tweeterapp\model\Tweet as Tweet;
-use tweeterapp\model\User as User;
-use tweeterapp\view\TweeterView as TweeterView;
+use hangarapp\model\Categorie as Categorie;
+use hangarapp\model\Commande as Commande;
+use hangarapp\model\Gerant as Gerant;
+use hangarapp\model\Panier as Panier;
+use hangarapp\model\Producteur as Producteur;
+use hangarapp\model\Produit as Produit;
+use hangarapp\view\HangarView as HangarView;
+use mf\view\AbstractView as AbstractView ;
 
-class TweeterView extends \mf\view\AbstractView 
+class HangarView extends AbstractView 
 {
   
     /* Constructeur 
@@ -25,7 +30,7 @@ class TweeterView extends \mf\view\AbstractView
      */ 
     private function renderHeader()
     {
-        return "<div class='theme-backcolor1'><h1>MiniTweeTR</h1>%%NAV%%</div><div class='theme-backcolor2'>";
+        return "<div class=\"main_container\"><h1>Le Hangar</h1>%%NAV%%";
     }
     
     /* Méthode renderFooter
@@ -34,7 +39,7 @@ class TweeterView extends \mf\view\AbstractView
      */
     private function renderFooter()
     {
-        return "</div><div class='theme-backcolor1 tweet-footer'>La super app créée en Licence Pro &copy;2021</div>";
+        return "</div>";
     }
 
      /* Méthode renderNav
@@ -48,87 +53,36 @@ class TweeterView extends \mf\view\AbstractView
         $link_login =$route->urlFor('home');
         $link_register =$route->urlFor('home');
 
-        $link_form =$route->urlFor('form');
+        $link_form =$route->urlFor('home');
 
-        $nav = "<div><table><tr><td><a href=".$link_home.">🏠</a></td><td><a href=\"\">🚪</a></td><td><a href=".$link_form.">✉️</a></td></tr></table></div>";
+        $nav = "<div class=\"nav_bar\">
+    <div id=\"btn_panier\">
+        <a href=".$link_home.">🛒</a>
+    </div>
+    <div id=\"btn_connexion\">
+        <a href=".$link_form.">👤</a>
+    </div></div>";
         return $nav;
     }
 
     /* Méthode renderHome
      *
-     * Vue de la fonctionalité afficher tous les Tweets. 
+     * 
      *  
      */
     
-    private function renderHome()
+    private function renderTest()
     {
 
-        /*
-         * Retourne le fragment HTML qui affiche tous les Tweets. 
-         *  
-         * L'attribut $this->data contient un tableau d'objets tweet.
-         * 
-         */
-
-        $route = new Router();
-        
-       $tweets = $this->data;
-
-       $displayTweets = "";
-         foreach ($tweets as $tweet)
-         {
-            $author = $tweet->author()->first();
-            $link_tweet =$route->urlFor('tweet',[['id',"$tweet->id"]]);
-            $link_user = $route->urlFOr('usertweets',[['id',"$author->id"]]);
-
-             $displayTweets .= "<div class='tweet'><div class='tweet-text'><a href=" . $link_tweet . "> $tweet->text</a></div><div class='tweet-author'><a href= ".$link_user."> $author->username </a> \n</div><div class='tweet-footer'>Created at $tweet->created_at \n</div></div>";
-         }
-
-         return $displayTweets;
+       
+        echo "Votre achat à bien été ajouté au panier";
+        var_dump($this->data);
+        setcookie("Panier", json_encode($this->data), time()+60);
 
 
     }
   
-    /* Méthode renderUeserTweets
-     *
-     * Vue de la fonctionalité afficher tout les Tweets d'un utilisateur donné. 
-     * 
-     */
-     
-    private function renderUserTweets()
-    {
 
-        /* 
-         * Retourne le fragment HTML pour afficher
-         * tous les Tweets d'un utilisateur donné. 
-         *  
-         * L'attribut $this->data contient un objet User.
-         *
-         */
-
-        $route = new Router();
-        $user = $this->data;
-        $tweets = $user->tweets()->get();
-
-        $htmlUser = "
-        <div style='font-weight: bolder'>User</div>
-        <div> Fullname : $user->fullname, Username : $user->username, Followers : $user->followers </div>
-        ";
-        
-        $htmlTweets = "<div style='font-weight: xx-bold; text-align: right'> TWEETS </div>";
-        
-        foreach ($tweets as $tweet)
-        {
-            $link_tweet =$route->urlFor('tweet',[['id',"$tweet->id"]]);
-            $htmlTweets .= "
-                    <div class='tweet'><div><a href=" . $link_tweet ."> $tweet->text </a></div>
-                    <div class='tweet-author'> $user->username \n</div>
-                    <div class='tweet-footer'>Created at $tweet->created_at \n</div></div>
-            ";
-        }
-
-        return $htmlUser . $htmlTweets;
-    }
   
     /* Méthode renderViewTweet 
      * 
@@ -136,49 +90,76 @@ class TweeterView extends \mf\view\AbstractView
      *
      */
     
-    private function renderViewTweet()
+    private function renderHome()
     {
-
-        /* 
-         * Retourne le fragment HTML qui réalise l'affichage d'un tweet 
-         * en particulié 
-         * 
-         * L'attribut $this->data contient un objet Tweet
-         *
-         */
-
         $route = new Router();
 
-        $tweet = $this->data;
-        $author = $tweet->author()->first();
+        $produits = $this->data["produit"];
+        $categories = $this->data["categorie"];
+        $producteurs = $this->data["producteur"];
+        $displayProduits= "";
+        $displayProduits .= "<form action=\"/lehangar/main/test/\" method=\"POST\"><div class=\"container_produit\">";
 
-        $link_user = $route->urlFor('usertweets',[['id',"$author->id"]]);
+        foreach ($categories as $categorie)
+        {
+            $displayProduits .= "<div class=\"container_categorie\">";
+            $displayProduits .= "<h1>$categorie->Nom</h1>";
 
-        $htmlTweet =
-            "<div class='tweet'><div> $tweet->text</div>
-             <div class='tweet-author'> <a href=" . $link_user . "> $author->username </a>\n</div>
-             <div class='tweet-footer'>Created at $tweet->created_at \n</div>
-             <div class='tweet-score'>👍 $tweet->score \n</div></div>";
+        foreach ($produits as $produit)
+        {
+            foreach($producteurs as $producteur){
+          $link_producteur =$route->urlFor('unProducteur',[['Id',"$producteur->Id"]]);            
+            if ($produit->Id_Categorie == $categorie->Id)
+            {
+                if ($produit->Id_Producteur == $producteur->Id){
+            $displayProduits .= "<div class=\"list_produit\">
+            $produit->Nom
+        <div class=\"info_produit\">
+            <div class=\"cell_produit\">
 
-       return $htmlTweet;
+                    <img class=\"photo_produit\" src=\"/lehangar/html/img/$produit->Photo\" alt=\"Image of $produit->Nom\">
+                </div>
+                <div class=\"cell_produit\">
+                    <ul>
+                        <li>Info: $produit->Description</li>
+                        <li> <a href=" . $link_producteur .">  $producteur->Nom</a></li>
+                        <li>Prix/Unité : $produit->Tarif_Unitaire</li>
+                        <li><input style=\"display:none\" type=\"text\" value=\"$produit->Id\" name=\"valueOf$produit->Id\"></li>
+                        <li><input type=\"number\" value=\"0\" name=\"$produit->Id\"></li>
+                        <li><input type=\"submit\"value=\"ADD\"></li>
+                    </ul>
+                </div>
+        </div>
+    </div>\n";
+
+            }
+        }
+        }
+    }
+        $displayProduits .= "</div>";
+        }
+        $displayProduits .= "</div>";
+
+        return $displayProduits;
         
     }
 
-
-
-    /* Méthode renderPostTweet
-     *
-     * Realise la vue de régider un Tweet
-     *
-     */
-    protected function renderPostTweet()
-    {
+    private function renderUnProducteur(){
         $route = new Router();
-        $send_route = $route->urlFor('send');
-        
-        return     "<div><form method=\"POST\" action=\"$send_route\"><textarea id=\"tweet-form\" name=\"text\" placeholder=\"Enter your fabulous tweet ...\" , maxlength=\"140\"></textarea><div><input id=\"send_button\" type=\"submit\" name=\"send\" value=\"send\"></div></form></div>";
-        
-    }
+        //var_dump($this->data);
+        $producteur = $this->data;
+        $html =  "<div style='font-weight: bolder'>Information du producteur: </div>";
+             $html .= "
+             <div class='producteur-nom'> $producteur->Nom </a></div>
+             <div class='producteur-localisation'>Localisation:  $producteur->Localisation \n</div>
+             <div class='producteur-desc'>$producteur->Mail \n</div>
+             </div>
+     ";
+
+ 
+          return $html;
+ 
+     }
 
 
     /* Méthode renderBody
@@ -196,31 +177,26 @@ class TweeterView extends \mf\view\AbstractView
          */
 
         $header = $this->renderHeader();
-        $center = "";
         $navBar = "";
+        $center = "";
         $footer = $this->renderFooter();
         
         // variable $$ au lieu du case ??    
         switch ($selector) {
             case 'renderHome':
+                $navBar = $this->renderNav();
                 $center = $this->renderHome();
-                $navBar = $this->renderNav();
-                break;
-            
-            case 'viewTweet':
-                $center = $this->renderViewTweet();
-                $navBar = $this->renderNav();
                 break;
 
-            case 'userTweets':
-                $center = $this->renderUserTweets();
+                case 'renderTest':
                 $navBar = $this->renderNav();
+                $center = $this->renderTest();
                 break;
 
-            case 'renderPostTweet':
-                $center = $this->renderPostTweet();
-                $navBar = $this->renderNav();
-                break;
+                case 'renderUnProducteur':
+                    $center = $this->renderUnProducteur();
+                    $navBar = $this->renderNav();
+                    break;
 
             default:
                 $center = "Pas de fonction view correspondante";
