@@ -1,0 +1,170 @@
+@mixin for-phone-only
+{
+  @media (max-width: 599px) { @content; }
+}
+
+@mixin for-tablet-portrait-up
+{
+  @media (min-width: 600px) { @content; }
+}
+
+@mixin for-tablet-landscape-up
+{
+  @media (min-width: 900px) { @content; }
+}
+
+@mixin for-desktop-up
+{
+  @media (min-width: 1200px) { @content; }
+}
+
+@mixin for-big-desktop-up
+{
+  @media (min-width: 1800px) { @content; }
+}
+
+body *
+{
+  margin: 0em;
+  @include for-tablet-portrait-up{font-size: 2rem;}
+  @include for-desktop-up{font-size: 1rem;}
+}
+
+body *::-webkit-scrollbar
+{
+  display: none;
+}
+
+li
+{
+  list-style-type: none;
+}
+
+h1
+{
+  text-align: center;
+  background-color: white;
+  opacity: 0.8;
+}
+
+input
+{
+  width: 100px;
+}
+
+body
+{
+	background-color: #c6a471;
+}
+
+.nav_bar
+{
+  height: 10vh;
+  background-color: #555;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(75px, auto);
+}
+
+.nav_bar div
+{
+  font-size: 3em;
+  border-radius: 10%;
+  text-align: center;
+}
+
+.nav_bar div:hover
+{
+  background-color: #777;
+}
+
+.ads
+{
+  height: 10vh;
+  background-color: #aaa;
+  border-bottom: solid 1em black;
+}
+
+.content_container
+{
+  min-height: 77vh;
+  max-height: 77vh;
+
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.content_container::-webkit-scrollbar {
+    display: none;
+}
+
+.container_produit
+{
+    margin: 2%;
+    display:flex;
+    @include for-tablet-portrait-up{margin: 2%; flex-direction: column;}
+    @include for-desktop-up{margin: 0%; flex-direction: row;}
+}
+
+.container_categorie
+{
+    @include for-tablet-portrait-up{width: auto;}
+    @include for-desktop-up{width: 25%; height: 80vh; overflow-y: scroll; padding:1%;}
+}
+
+.cell_produit
+{
+  border-right: solid black;
+  width: 50%;
+}
+
+.list_produit
+{
+  background-color: #ccc;
+  border: solid 1px black;
+}
+
+.info_produit
+{
+  background-color: #eee;
+  border-top: solid black;
+  display: flex;
+  flex-direction: row;
+}
+
+.cell_produit
+{
+  padding: 1%;
+  height: auto;
+}
+
+.article_content
+{
+  display: none;
+}
+
+.article:hover .article_content
+{
+  display: block;
+}
+
+.photo_produit
+{
+  @include for-tablet-portrait-up{height: 160px;}
+  @include for-desktop-up{height: 100px;}
+}
+
+#btn_panier
+{
+  grid-column: 4 ;
+  grid-row: 1 ;
+
+}
+
+#btn_connexion
+{
+  grid-column: 5 ;
+  grid-row: 1 ;
+}
