@@ -106,21 +106,22 @@ class HangarView extends AbstractView
   
     private function renderUneCommande(){
         $route = new Router();
-        var_dump($this->data);
+        //var_dump($this->data);
         $commande = $this->data;
+        //$panier= $this->data;
         $html =  "<div style='font-weight: bolder'>Informations du client: </div>";
              $html .= "
              <div class='commande-nom'> Nom du client: $commande->Nom_client </div>
              <div class='commande-localisation'>Mail:  $commande->Mail_client \n</div>
              <div class='commande-tel'>Telephone: $commande->Tel_client </div>
              <div class='commande-tel'>Montant: $commande->Montant \n</div>
-             <div class='commande-produit'>Produits Commandés: $commande->produit</div>
+             <div class='commande-tel'>Nom Produit: $commande->Nom  \n</div>
              </div>
      ";
-
+//echo $commande->panier();
  
           return $html;
- 
+          
      }
 
     /* Méthode renderViewTweet 

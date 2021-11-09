@@ -3,15 +3,15 @@
 namespace hangarapp\control;
 
 use mf\auth\exception\AuthentificationException as AuthentificationException;
-use hangarapp\auth\HangarAuthentification as HangarAuthentification;
-use hangarapp\view\HangarGestView as HangarGestView;
+//use hangarapp\auth\HangarAuthController as HangarAuthController;
+use hangarapp\view\HangarView as HangarView;
 use hangarapp\model\Producteur as Producteur;
 use mf\router\Router as Router;
 
-class HangarAdminController extends \mf\control\AbstractController {
+class HangarAuthController extends \mf\control\AbstractController {
     
     public function login() {
-        $view_login = new HangarGestView("");
+        $view_login = new HangarView("");
         $view_login->render("viewLogin");
     }
 
@@ -22,7 +22,7 @@ class HangarAdminController extends \mf\control\AbstractController {
         $user_mail = $this->request->post['Mail'];
         $user_password = $this->request->post['Mdp'];
         // print_r(">>>>>> user password ! " . $user_password . "!!!!!!!!!!!!!");
-        $hangar_auth = new HangarAuthentification; // Pourquoi pas dans le construct ?
+        $hangar_auth = new HangarAuthController; // Pourquoi pas dans le construct ?
         
         try {
             $hangar_auth->loginUser($user_mail, $user_password);
@@ -38,7 +38,7 @@ class HangarAdminController extends \mf\control\AbstractController {
             $prod = Producteur::select()->where('Mail','=',"$user_mail")->first();
             $prod_commande = $prod->followedBy()->get();    ///corrigé folllowedBy
             
-            $view_commandes = new HangarGestView($prod_commande);
+            $view_commandes = new HangarView($prod_commande);
             $view_commandes->render('viewHome');
 
         } else {
@@ -49,7 +49,7 @@ class HangarAdminController extends \mf\control\AbstractController {
 
 
     public function logOut() {
-        $hangar_auth = new HangarAuthentification;
+        $hangar_auth = new HangarAuthController;
         $hangar_auth->logout();
 
         $route = new Router();

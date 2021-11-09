@@ -66,17 +66,23 @@ class HangarController extends \mf\control\AbstractController {
 
     }
 
-    public function viewUneCommande(){
+    public function viewUneCommande() {
         $route = new Router();
         $http_req = new HttpRequest();
         $idCommande = $id ?? $this->request->get['Id'];
         $commande = Commande::find($idCommande);
+        /*
         $panier= Panier::with(['commande'=> function($query){
             $query->select('*');
         }])->with(['produit'=>function ($query){
             $query->select('*');
         }]);
-        $vueCommande = new HangarView($commande, $panier);
+        */
+        $panier= Commande::join('Panier','Commande.Id', '=', 'Panier.Id_Commande')
+        ->join('Produit', 'Produit.Id', '=', 'Panier.Id_Produit')
+        ->select('*')
+        ->get();
+        $vueCommande = new HangarView( $commande, $panier);
         echo $vueCommande->render('renderUneCommande');
 
     }
@@ -103,11 +109,28 @@ class HangarController extends \mf\control\AbstractController {
 
         return $htmlTweet;*/
 
-        $id_productor = $id ?? $this->request->get['Id'];
+       /* $id_productor = $id ?? $this->request->get['Id'];
         $productor = Tweet::find($id_productor);
 
         $vueProductors = new TweeterView($productor);
-        $vueProductors->render('viewProductor');
+        $vueProductors->render('viewProductor');*/
+
+        $route = new Router();
+        $http_req = new HttpRequest();
+        $id_producteur = $id ?? $this->request->get['Id'];
+        $commande = Produit::find($id_producteur);
+        /*
+        $panier= Panier::with(['commande'=> function($query){
+            $query->select('*');
+        }])->with(['produit'=>function ($query){
+            $query->select('*');
+        }]);
+        */
+        $panier= Commande::join('Panier','Commande.Id', '=', 'Panier.Id_Commande')
+        ->join('Produit', 'Produit.Id', '=', 'Panier.Id_Produit')
+        ->select('*');
+        $vueCommande = new HangarView( $commande, $panier);
+        echo $vueCommande->render('renderUneCommande');
          
 
     }
