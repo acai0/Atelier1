@@ -1,21 +1,21 @@
 <?php
 
-namespace hangarapp\view;
+namespace hnagarapp\view;
 
 use mf\router\Router as Router;
-use hangarapp\model\Categorie as Categorie;
-use hangarapp\model\Commande as Commande;
-use hangarapp\model\Gerant as Gerant;
-use hangarapp\model\Panier as Panier;
-use hangarapp\model\Producteur as Producteur;
-use hangarapp\model\Produit as Produit;
+use app\model\Categorie as Categorie;
+use app\model\Commande as Commande;
+use app\model\Gerant as Gerant;
+use app\model\Panier as Panier;
+use app\model\Producteur as Producteur;
+use app\model\Produit as Produit;
 
 //Vue
 //use app\view\HangarGestView as HangarGestView;
 use mf\view\AbstractView as AbstractView ;
 
 //Authentification
-use hangarapp\auth\HangarAuthentification as HangarAuthentification;
+use app\auth\HangarAuthentification as HangarAuthentification;
 
 use mf\utils\HttpRequest as HttpRequest;
 
@@ -56,22 +56,15 @@ class HangarGestView extends AbstractView
     private function renderNav()
     {
         $route = new Router();
-        $link_commandes =$route->urlFor('commandes');
-        $link_tdb=$route->urlFor('tdb');
         $link_home =$route->urlFor('home');
         $link_login =$route->urlFor('home');
         $link_register =$route->urlFor('home');
 
         $link_form =$route->urlFor('home');
-
-        $nav = "<div class=\"nav_bar\">
-        <div id=\"btn_panier\">
-            <a href=".$link_tdb.">🛒</a>
-        </div>
-        <div id=\"btn_connexion\">
-            <a href=".$link_form.">👤</a>
-        </div>";
-                return $nav;
+/*
+        $nav = "<div><a href=".$link_home.">🛒</a></div>
+        <div><a href=".$link_form.">👤</a></div>";
+        return $nav;*/
     }
 
     /* Méthode renderHome
@@ -82,47 +75,41 @@ class HangarGestView extends AbstractView
     
     private function renderHome()
     {
-        $route = new Router();
-        $commandes= $this->data;
-        foreach ($commandes as $commande)
-        $link_commande =$route->urlFor('uneCommande',[['Id',"$commande->Id"]]);     
-        $html =  "<div style='font-weight: bolder'>Commandes: </div>";
-             $html .= "
-             <div class='client-nom'> Nom du client:<a href=" . $link_commande ."> $commande->Nom_client </a></div>
-             <div class='montant'>Montant:  $commande->Montant € \n</div>
-             </div>
-     ";
+        $router = new Router();
+        $commandes = $this->data;
 
- 
-          return $html;
+
+        $displayCommandes = "<div class='commande'><h2>Les commandes</h2>";
+        
+        //$req = Commande::select();
+        //$lignes = $commande->get();
+        foreach ($commandes as $c){
+            $displayCommandes .= "<div class='cmd'>Nom client : ".$c->Nom_client."<br> Mail client  : ".$c->Mail_client."<br> Téléphone : ".$c->Tel_client."<br>
+            Montant : ".$c->Montant." € <br> Etat : ".$c->Etat."<br></div>"; 
+        }
 
         $displayCommandes .= "</div>";
-
+        /*foreach ($produits as $produit) {
+            $productor = $produit->productor()->first();
+            $link_login =$router->urlFor('productor',[['id',"$productor->id"]]);
+            //$link_register = $router->urlFor('usertweets',[['id',"$author->id"]]);
+             $displayTweets .= "ok"; /*"<div class='tweet'>
+                                <div class='tweet-text'><a href=" . $link_tweet . "> $tweet->text</a></div>
+                    <div class='tweet-footer'><div class='tweet-author'>author : <a href= " . $link_user . "> $author->username </a> \n</div>
+                    <div class='tweet-timestamp'>Created at $tweet->created_at \n</div></div></div>";
+        }*/
 
         return $displayCommandes;
-
+/*
+        $produit = new Producteur();
+        $req = $produit::select();
+        $lignes = $req->get();
+        //echo $lignes;
+        return $displayTweets . $lignes;*/
 
 
     }
   
-    private function renderUneCommande(){
-        $route = new Router();
-        $commande = $this->data;
-        //$panier= Panier::select();
-        $html =  "<div style='font-weight: bolder'>Informations du client: </div>";
-             $html .= "
-             <div class='commande-nom'> Nom du client: $commande->Nom_client </div>
-             <div class='commande-localisation'>Mail:  $commande->Mail_client \n</div>
-             <div class='commande-tel'>Telephone: $commande->Tel_client </div>
-             <div class='commande-tel'>Montant: $commande->Montant €\n</div>
-             <div class='commande-tel'>Produits:   \n</div>
-             </div>
-     ";
-//echo $commande->panier();
- 
-          return $html;
-          
-     }
 
   
     /* Méthode renderViewTweet 
@@ -130,21 +117,7 @@ class HangarGestView extends AbstractView
      * Réalise la vue de la fonctionnalité affichage d'un tweet
      *
      */
-    private function renderTdb(){
-        $route= new Router();
-        //var_dump($this->data);
-        $commande= Commande::count();
-        $nb_c= Commande::sum('Montant');
-        $html =  "<div style='font-weight: bolder'>Tableau de bord </div>";
-             $html .= "
-             <div class='commandes'> Nombre de client(s): $commande </div>
-             <div class='ca'> Chiffre d'affaire:$nb_c €</div>
-             </div>
-     ";
- 
-          return $html;
-    }
-
+    
     private function renderViewTweet()
     {
 
@@ -196,7 +169,20 @@ class HangarGestView extends AbstractView
 
     }
 
-    
+    public function renderListeC() {
+        $router = new Router();
+        $commandes = $this->data;
+        $displayCommandes = "<div class='commande'><h2>Les commandes</h2>";
+        foreach ($commandes as $c){
+            $displayCommandes .= "<div class='cmd'>Nom client : ".$c->Nom_client."<br> Montant  : ".$c->Montant."<br>
+            Montant : ".$c->Montant." € <br> Etat : ".$c->Etat."<br></div>"; 
+        }
+
+        $displayCommandes .= "</div>";
+
+        return $displayCommandes;
+    }
+
 
 
 
@@ -226,22 +212,8 @@ class HangarGestView extends AbstractView
                 $center = $this->renderHome();
                 $navBar = $this->renderNav();
                 break;
-
-                case 'renderCommande':
-                    $center = $this->renderCommande();
-                    $navBar = $this->renderNav();
-                    break;
-
-                    case 'renderUneCommande':
-                        $center = $this->renderUneCommande();
-                        $navBar = $this->renderNav();
-                        break;
-
-                    case 'renderTdb':
-                        $center = $this->renderTdb();
-                        $navBar = $this->renderNav();
-                        break;
-            case 'renderLogin':
+                
+            case 'viewLogin':
                 $center = $this->renderLogin();
                 break;
 

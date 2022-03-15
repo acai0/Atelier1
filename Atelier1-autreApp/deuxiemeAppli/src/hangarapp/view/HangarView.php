@@ -75,7 +75,7 @@ class HangarView extends AbstractView
         $categories = $this->data["categorie"];
         $producteurs = $this->data["producteur"];
         $displayProduits= "";
-        $displayProduits .= "<form action=\"/www/perigno19u/Atelier1/main.php/home/\" method=\"POST\"><div class=\"container_produit\">";
+        $displayProduits .= "<form action=\"/Atelier1/main/home/\" method=\"POST\"><div class=\"container_produit\">";
 
         foreach ($categories as $categorie)
         {
@@ -94,7 +94,7 @@ class HangarView extends AbstractView
         <div class=\"info_produit\">
             <div class=\"cell_produit\">
 
-                    <img class=\"photo_produit\" src=\"/www/perigno19u/lehangar/html/img/$produit->Photo\" alt=\"Image of $produit->Nom\">
+                    <img class=\"photo_produit\" src=\"/lehangar/html/img/$produit->Photo\" alt=\"Image of $produit->Nom\">
                 </div>
                 <div class=\"cell_produit\">
                     <ul>

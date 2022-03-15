@@ -99,11 +99,11 @@ class HangarController extends \mf\control\AbstractController
         }
         if (isset($_COOKIE["Panier"]))
         {       
-             setcookie("Panier", substr($_COOKIE["Panier"], 0, -1).(ltrim(json_encode($info_cookie), '[')),600,'/');
+             setcookie("Panier", substr($_COOKIE["Panier"], 0, -1).(ltrim(json_encode($info_cookie), '[')),"",'/');
         }
         else
         {
-        setcookie("Panier", json_encode($info_cookie),600,'/');
+        setcookie("Panier", json_encode($info_cookie),"",'/');
         }
         }
         $info["produit"] = Produit::select('*')->orderBy('Id_Categorie')->orderBy('nom')->get();

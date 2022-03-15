@@ -3,19 +3,17 @@
 namespace hangarapp\auth;
 
 use mf\auth\exception\AuthentificationException as AuthentificationException;
-use hangarapp\model\Gerant as Gerant;
 use hangarapp\model\Producteur as Producteur;
 
-class HangarAuthentification extends \mf\auth\Authentification
-{
+class HangarAuthentification extends \mf\auth\Authentification {
 
     /*
-     * Classe hangarAuthentification qui définie les méthodes qui dépendent
+     * Classe TweeterAuthentification qui définie les méthodes qui dépendent
      * de l'application (liée à la manipulation du modèle User) 
      *
      */
 
-    /* niveaux d'accès de hangarApp 
+    /* niveaux d'accès de HangarApp 
      *
      * Le niveau USER correspond a un utilisateur inscrit avec un compte
      * Le niveau ADMIN est un plus haut niveau (non utilisé ici)
@@ -23,12 +21,11 @@ class HangarAuthentification extends \mf\auth\Authentification
      * Ne pas oublier le niveau NONE un utilisateur non inscrit est hérité 
      * depuis AbstractAuthentification 
      */
-    const ACCESS_LEVEL_USER  = 100;
+    const ACCESS_LEVEL_USER  = 100;   
     const ACCESS_LEVEL_ADMIN = 200;
 
     /* constructeur */
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
     }
 
@@ -51,31 +48,32 @@ class HangarAuthentification extends \mf\auth\Authentification
      *       ATTENTION : Le mot de passe ne doit pas être enregistré en clair.
      * 
      */
-
-    /*public function createUser($username, $pass, $fullname,$level=self::ACCESS_LEVEL_USER) {
+    
+    public function createUser($nom, $local, $mail, $mdp,
+                               $level=self::ACCESS_LEVEL_USER) {
 
         
-        if(User::select()->where('username','=',"$username")->exists()) {
+        if(Producteur::select()->where('Nom','=',"$nom")->exists()) {
             echo('DEBUG >>> user déjà existant \n');
             echo('DEBUG >>> user déjà existant \n');
-            $emess = "User $username already exists";
+            $emess = "User $nom already exists";
             throw new AuthentificationException($emess);
         } else {
             echo('DEBUG >>> user en création \n');
 
-            $new_user = new User();
+            $new_user = new Producteur();
 
-            $new_user->username = $username;
-            $new_user->password = $this->hashPassword($pass);
-            $new_user->fullname = $fullname;
+            $new_user->Nom = $nom;
+            $new_user->Localisation = $local;
+            $new_user->Mail = $mail;
+            $new_user->Mdp = $this->hashPassword($pass);
             $new_user->level= $level;
-            $new_user->followers= 0;
 
             $new_user->save();
 
         }
 
-    }*/
+    }
 
     /* La méthode loginUser
      *  
@@ -94,75 +92,18 @@ class HangarAuthentification extends \mf\auth\Authentification
      *      - réaliser l'authentification et la connexion (cf. la class Authentification)
      *
      */
+    
+    public function loginUser($mail, $password){
 
-
-    public function createUser(
-        $nom,
-        $local,
-        $mail,
-        $mdp,
-        $level = self::ACCESS_LEVEL_USER
-    ) {
-
-
-        if (Producteur::select()->where('Nom', '=', "$nom")->exists()) {
-            echo ('DEBUG >>> user déjà existant \n');
-            echo ('DEBUG >>> user déjà existant \n');
-            $emess = "User $nom already exists";
+        if(!Producteur::select()->where('Mail','=',"$mail")->exists()) {
+            echo('DEBUG >>> user does not exist ok \n');
+            $emess = "Productor $mail doesn't exist";
             throw new AuthentificationException($emess);
         } else {
-            echo ('DEBUG >>> user en création \n');
-
-            $new_user = new Producteur();
-
-            $new_user->Nom = $nom;
-            $new_user->Localisation = $local;
-            $new_user->Mail = $mail;
-            $new_user->Mdp = $this->hashPassword($mdp);
-            $new_user->level = $level;
-
-            $new_user->save();
+            $user = Producteur::select()->where('Mail','=',"$mail")->first();
+        $this->login($user->Mail, $user->Mdp, $password ,$user->level);
         }
 
-        if (Gerant::select()->where('Nom', '=', "$nom")->exists()) {
-            echo ('DEBUG >>> user déjà existant \n');
-            echo ('DEBUG >>> user déjà existant \n');
-            $emess = "User $nom already exists";
-            throw new AuthentificationException($emess);
-        } else {
-            echo ('DEBUG >>> user en création \n');
-
-            $new_user = new Producteur();
-
-            $new_user->Nom = $nom;
-            $new_user->Localisation = $local;
-            $new_user->Mail = $mail;
-            $new_user->Mdp = $this->hashPassword($mdp);
-            $new_user->level = $level;
-
-            $new_user->save();
-        }
     }
 
-    public function loginUser($mail, $password)
-    {
-
-        if (!Gerant::select()->where('Mail', '=', "$mail")->exists()) {
-            echo ('DEBUG >>> user does not exist ok \n');
-            $emess = "User $mail doesn't exist";
-            throw new AuthentificationException($emess);
-        } else {
-            $user = Gerant::select()->where('Mail', '=', "$mail")->first();
-            $this->login($user->Mail, $user->mdp, $password, $user->level);
-        }
-
-        if (!Producteur::select()->where('Mail', '=', "$mail")->exists()) {
-            echo ('DEBUG >>> user does not exist ok \n');
-            $emess = "User $mail doesn't exist";
-            throw new AuthentificationException($emess);
-        } else {
-            $user = Producteur::select()->where('Mail', '=', "$mail")->first();
-            $this->login($user->Mail, $user->mdp, $password, $user->level);
-        }
-    }
 }

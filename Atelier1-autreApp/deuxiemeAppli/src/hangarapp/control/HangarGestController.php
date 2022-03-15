@@ -4,14 +4,14 @@ namespace hangarapp\control;
 
 use mf\utils\HttpRequest as HttpRequest;
 use mf\router\Router as Router;
-use hangarapp\model\Categorie as Categorie;
-use hangarapp\model\Commande as Commande;
-use hangarapp\model\Gerant as Gerant;
-use hangarapp\model\Panier as Panier;
-use hangarapp\model\Producteur as Producteur;
-use hangarapp\model\Produit as Produit;
-use hangarapp\view\HangarGestView as HangarGestView;
-use hangarapp\auth\HangarAuthentification as HangarAuthentification;
+use app\model\Categorie as Categorie;
+use app\model\Commande as Commande;
+use app\model\Gerant as Gerant;
+use app\model\Panier as Panier;
+use app\model\Producteur as Producteur;
+use app\model\Produit as Produit;
+use app\view\HangarGestView as HangarGestView;
+use app\auth\HangarAuthentification as HangarAuthentification;
 
 /* Classe HangarController :
  *  
@@ -50,11 +50,27 @@ class HangarGestController extends \mf\control\AbstractController {
      * 
      */
     
-    public function viewHome(){
-        $commande = Commande::select('*')->get();
+    public function viewHome($id = null){
+
+        $route = new Router();/*
+        $id_prod = $id ?? $this->request->get('Id');/*
+        $prod = Producteur::find($id_prod);
+        $vueProd = new HangarView($prod);
+*/
+        $commande = Commande::select('Commande.Id','Commande.Montant','Produit.Id','Produit.Nom'.'Panier.Quantite')
+            ->from('Commande', 'Produit','Panier')
+            ->join('Panier','Commande.Id','=','Panier.Id_Commande')
+            ->join('Produit','Panier.Id_Produit','=','prod.Id')
+            ->where('Produit.Id_Producteur','=',"3"); //////Identifiant producteur à revoir
         $vueCommande = new HangarGestView($commande);
         // echo $vueTweets->renderHome();
         echo $vueCommande->render('renderHome');
+
+/*        SELECT Commande.Id, Commande.Nom_client 
+FROM Commande 
+LEFT JOIN Panier ON Commande.Id = Panier.Id_Commande 
+LEFT JOIN Produit ON Panier.Id_Produit = Produit.Id 
+WHERE Produit.Id_Producteur = 2;*/
     }
 
 
@@ -90,57 +106,14 @@ fol
         $view_login = new HangarGestView("");
         $view_login->render("renderLogin");
     }*/
-    public function viewCommande(){
-
-        $commande = Commande::select('Nom_client,Montant');
-        $vueCommande = new HangarGestView($commande);
-        echo $vueCommande->render('renderCommande');
-
-    }
-
-    public function viewUneCommande(){
-        $route = new Router();
-        $http_req = new HttpRequest();
-        $idCommande = $id ?? $this->request->get['Id'];
-        $commande = Commande::find($idCommande);
-        /*
-        $panier= Panier::with(['commande'=> function($query){
-            $query->select('*');
-        }])->with(['produit'=>function ($query){
-            $query->select('*');
-        }]);
-        */
-        $panier= $commande::join('Panier','Commande.Id', '=', 'Panier.Id_Commande')
-        ->join('Produit', 'Produit.Id', '=', 'Panier.Id_Produit')
-        ->select('*')
-        ->get();
-        $vueCommande = new HangarGestView( $commande, $panier);
-        echo $vueCommande->render('renderUneCommande');
+    public function viewListeC() { //liste de commandes: nom du client, montant
+        $commande = Commande::select('Nom_client','Montant')
+        ->from('Commande');
+    $vueCommande = new HangarGestView($commande);
+    echo $vueCommande->render('renderListeC');
 
     }
-    public function viewTdb(){
-        $router=new Router();
-        $http_req = new HttpRequest();
-        $commande= Commande::select('*');
-        $vueCommande = new HangarGestView( $commande);
-        echo $vueCommande->render('renderTdb');
 
-    }
-    public function ajoutPanier($produit,$qte){
+   
 
-        $idcommande = Commande::select('Id')->orderBy('Id','desc');
-        $idcommande = $idcommande->first();
-        $p = new Panier();
-        $p->id_produit = $produit;
-        $p->id_Commande = $idcommande->Id;
-        $p->Quantite = $qte;
-        $p->save();
-
-        
-      }
-    
-      public function supprimePanier($produit,$commande)
-      {
-       $requete = Panier::where('id_Commande','=', $commande)->where('id_Produit','=', $produit)->delete();
-      }
 }

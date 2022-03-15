@@ -2,12 +2,26 @@
 
 namespace hangarapp\model;
 
-class Producteur extends \Illuminate\Database\Eloquent\Model
-{
 
-       protected $table      = 'Producteur';  /* le nom de la table */
-       protected $primaryKey = 'id';     /* le nom de la clé primaire */
-       public    $timestamps = false;    /* si vrai la table doit contenir
-                                            les deux colonnes updated_at,
-                                            created_at */   
-}
+class Producteur extends \Illuminate\Database\Eloquent\Model{
+    
+    protected $table = "Producteur";
+    public $primaryKey = "id";
+    public $timestamps = false;
+
+    public function lesProduits(){
+        return $this->belongsTo('hangarapp\model\Produit','Id');
+    }    
+    
+    public function ajoutProducteur($nom,$localisation,$mail,$mdp){
+        $p = new Producteur();
+        $p->Nom = $nom;
+        $p->Localisation = $localisation;
+        $p->Mail = $mail;
+        $p->Mdp = $mdp;
+    }
+    
+}    
+    
+    
+    

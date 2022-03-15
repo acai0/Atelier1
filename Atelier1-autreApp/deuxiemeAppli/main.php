@@ -37,7 +37,7 @@ use hangarapp\control\HangarAdminController as HangarAdminController;
 use hangarapp\auth\HangarAuthentification as HangarAuthentification;
 
 //Paramètre de connexion issus de config.ini
-$config = parse_ini_file("conf/config.ini");
+$config = parse_ini_file("conf/conf.ini");
 
 //une instance de connexion
 $db = new Illuminate\Database\Capsule\Manager();
@@ -78,23 +78,6 @@ $router->addRoute('check_login',
                     '\hangarapp\control\HangarAdminController',
                     'CheckLogin',
                     HangarAuthentification::ACCESS_LEVEL_USER);
-
-                    $router->addRoute('commandes',
-                    '/commandes/',
-                    '\hangarapp\control\HangarGestController',
-                    'viewCommande');
-  
-                    
-                    $router->addRoute('uneCommande',
-                    '/uneCommande/',
-                    '\hangarapp\control\HangarGestController',
-                    'viewUneCommande');
-
-                    $router->addRoute('tdb',
-                    '/tdb/',
-                    '\hangarapp\control\HangarGestController',
-                    'viewTdb');
-  
 /*
 $router->addRoute('productor',
                     '/productor/',
@@ -128,6 +111,4 @@ FROM Commande
 LEFT JOIN Panier ON Commande.Id = Panier.Id_Commande 
 LEFT JOIN Produit ON Panier.Id_Produit = Produit.Id 
 WHERE Produit.Id_Producteur = 2; */
-
-
 ?>

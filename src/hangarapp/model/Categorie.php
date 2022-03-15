@@ -10,4 +10,10 @@ class Categorie extends \Illuminate\Database\Eloquent\Model
        public    $timestamps = false;    /* si vrai la table doit contenir
                                             les deux colonnes updated_at,
                                             created_at */   
+
+       public function produits() {
+        return $this->hasMany('\hangarapp\model\Produit', 'Id_Categorie');
+        /* 'Produit'     : le nom de la classe du modèle lié   */
+        /* 'Id_Categorie' : la clé étrangère dans la table liée */
+ }
 }

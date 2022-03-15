@@ -12,7 +12,7 @@ class HangarAdminController extends \mf\control\AbstractController {
     
     public function login() {
         $view_login = new HangarGestView("");
-        $view_login->render("renderLogin");
+        $view_login->render("viewLogin");
     }
 
     public function checkLogin() {
@@ -61,6 +61,7 @@ class HangarAdminController extends \mf\control\AbstractController {
         $view_signup = new TweeterView("");
         $view_signup->render("viewSignup");
     }
+
     public function checkSignup() {
         
         $router = new Router();

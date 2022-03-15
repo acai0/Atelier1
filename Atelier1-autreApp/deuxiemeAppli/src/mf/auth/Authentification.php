@@ -2,7 +2,6 @@
 
 namespace mf\auth;
 
-
 // A verifier si le use fonctionne bien !
 use mf\auth\exception\AuthentificationException as AuthentificationException;
 
@@ -42,7 +41,7 @@ class Authentification extends AbstractAuthentification {
         $this->access_level = self::ACCESS_LEVEL_NONE;
         $this->logged_in = false;
 
-        echo("DEBUG >>>> logout OK in Authentification from HangarAdminController"  . "<br>");
+        echo("DEBUG >>>> logout OK in Authentification from TweeterAdminController"  . "<br>");
         echo ("user (ify nothig, it works) : $this->user_login" . "<br>");
     }
 
@@ -84,12 +83,9 @@ class Authentification extends AbstractAuthentification {
             if($password == $hash) {
                 $verify_password = true;
             }
-            else{
-                $verify_password = false;
-            }
-        } /*else {
+        } else {
             $verify_password = password_verify($password, $hash);
-        }*/
+        }
      
         return $verify_password;
     }
